@@ -12,6 +12,10 @@ import java.util.List;
 
 /**
  * 员工管理
+ * page: 当前页码
+ * start: 开始索引
+ * pageSize: 每页记录数
+ * return 封装结果(总记录数,结果列表)
  */
 @Service
 public class EmpServiceImpl implements EmpService {

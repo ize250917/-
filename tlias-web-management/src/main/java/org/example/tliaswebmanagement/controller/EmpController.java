@@ -14,6 +14,12 @@ public class EmpController {
     @Autowired
     private EmpService empService;
 
+    /*
+    * 分页查询
+    * @RequestParam 默认值
+    * log 日志
+    * return 分页数据
+    */
     @GetMapping
     public Result page(@RequestParam(defaultValue = "1") Integer page ,
                        @RequestParam(defaultValue = "10") Integer pageSize){
