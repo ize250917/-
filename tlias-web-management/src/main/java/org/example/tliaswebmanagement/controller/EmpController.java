@@ -15,7 +15,7 @@ public class EmpController {
     private EmpService empService;
 
     /*
-    * 分页查询
+    * 分页查询（原始）
     * @RequestParam 默认值
     * log 日志
     * return 分页数据

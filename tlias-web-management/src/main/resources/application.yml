@@ -3,7 +3,9 @@ spring:
     name: tlias-web-management
   # 数据库连接信息
   datasource:
-    url: jdbc:mysql://localhost:3306/tlias?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/tlias?useSSL=false
+         &allowPublicKeyRetrieval=true
+         &serverTimezone=Asia/Shanghai&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: '050926'
