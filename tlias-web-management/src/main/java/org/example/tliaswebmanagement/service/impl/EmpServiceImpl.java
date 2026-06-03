@@ -2,14 +2,23 @@ package org.example.tliaswebmanagement.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.example.tliaswebmanagement.mapper.EmpExprMapper;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.Emp;
+import org.example.tliaswebmanagement.pojo.EmpExpr;
 import org.example.tliaswebmanagement.pojo.PageResult;
 import org.example.tliaswebmanagement.service.EmpService;
 import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,6 +29,9 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private EmpMapper empMapper;
+
+    @Autowired
+    private EmpExprMapper empExprMapper;
 
     /*
      * page: 当前页码
@@ -45,15 +57,36 @@ public class EmpServiceImpl implements EmpService {
 
     //分页查询（基于pageHelper）
     @Override
-    public PageResult page(Integer page, Integer pageSize) {
+    public PageResult page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end) {
         //1. 设置分页参数
         PageHelper.startPage(page,pageSize);
 
         //2. 执行查询
-        List<Emp> empList = empMapper.list();
+        List<Emp> empList = empMapper.list(name, gender, begin, end);
         Page<Emp> p = (Page<Emp>) empList;
 
         //3. 封装结果
         return new PageResult(p.getTotal(), p.getResult());
+    }
+
+    @Transactional  // 开启事务
+    @Override
+    public void save(Emp emp) {
+        //补全基础属性
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+
+        List<EmpExpr> exprList = emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            //遍历集合，设置empID为新增员工的ID
+            for(EmpExpr expr : exprList){
+                expr.setEmpId(emp.getId());
+            }
+            //批量插入员工经历
+            empExprMapper.insertBatch(exprList);
+        }
+
+
     }
 }
