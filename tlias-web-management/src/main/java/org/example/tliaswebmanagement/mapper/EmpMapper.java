@@ -25,11 +25,7 @@ public interface EmpMapper {
 
     */
 
-    // 分页查询（基于pageHelper）
-    @Select("select e.*, d.name deptName from emp as e left join dept as d" +
-            "where e.name like concat('%','#{name}','%') and e.gender = #{gender}\n" +
-            "          and e.entry_date between #{begin} and #{end}" +
-            " on e.dept_id = d.id")
+    // 分页查询（基于pageHelper） sql语句已经配置在EmpMapper.xml中
     public List<Emp> list(String name, Integer gender, LocalDate begin, LocalDate end);
 
     /**
