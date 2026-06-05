@@ -8,17 +8,13 @@ import org.example.tliaswebmanagement.pojo.Emp;
 import org.example.tliaswebmanagement.pojo.EmpExpr;
 import org.example.tliaswebmanagement.pojo.PageResult;
 import org.example.tliaswebmanagement.service.EmpService;
-import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -89,4 +85,16 @@ public class EmpServiceImpl implements EmpService {
 
 
     }
+
+    //批量删除
+    @Transactional
+    @Override
+    public void deleteByIds(List<Integer> ids) {
+        //1. 根据ID批量删除员工基本信息
+        empMapper.deleteByIds(ids);
+
+        //2. 根据员工的ID批量删除员工的工作经历信息
+        empExprMapper.deleteByEmpIds(ids);
+    }
+
 }

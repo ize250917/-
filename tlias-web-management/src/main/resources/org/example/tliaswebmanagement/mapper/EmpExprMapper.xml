@@ -16,4 +16,13 @@
             (#{expr.empId}, #{expr.begin}, #{expr.end}, #{expr.company}, #{expr.job})
         </foreach>
     </insert>
+    <!--根据员工的ID批量删除工作经历信息-->
+    <!--empIds:员工的ID列表-->
+    <!--foreach:遍历集合，将集合中的元素作为参数传递给SQL语句-->
+    <delete id="deleteByEmpIds">
+        delete from emp_expr where emp_id in
+        <foreach collection="empIds" item="empId" open="(" close=")" separator=",">
+            #{empId}
+        </foreach>
+    </delete>
 </mapper>

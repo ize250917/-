@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
+    <!--分页查询员工信息-->
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Emp">
         select e.*, d.name deptName from emp as e left join dept as d on e.dept_id = d.id
         <where>
@@ -17,4 +18,14 @@
             </if>
         </where>
     </select>
+
+    <!--批量删除员工信息-->
+    <!--ids:员工的ID列表-->
+    <!--foreach:遍历集合，将集合中的元素作为参数传递给SQL语句-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

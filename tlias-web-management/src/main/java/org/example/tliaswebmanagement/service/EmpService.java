@@ -3,8 +3,10 @@ package org.example.tliaswebmanagement.service;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.Emp;
 import org.example.tliaswebmanagement.pojo.PageResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface EmpService {
     /**
@@ -16,4 +18,6 @@ public interface EmpService {
     PageResult page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end);
 
     void save(Emp emp);
+
+    void deleteByIds(List<Integer> ids);
 }
