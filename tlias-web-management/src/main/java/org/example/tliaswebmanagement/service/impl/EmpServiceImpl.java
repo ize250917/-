@@ -15,6 +15,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -97,4 +99,33 @@ public class EmpServiceImpl implements EmpService {
         empExprMapper.deleteByEmpIds(ids);
     }
 
+    //查询回显
+    @Override
+    public Emp getById(Integer id) {
+        return empMapper.getById(id);
+    }
+
+    /*
+     * 修改员工信息
+     */
+    @Transactional
+    @Override
+    public void update(Emp emp) {
+        //补全基础属性，修改员工基本信息
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.updateById(emp);
+        //删除员工的旧工作经历
+        empExprMapper.deleteByEmpIds(Arrays.asList(emp.getId()));
+        //批量插入员工新的工作经历
+        List<EmpExpr> exprList = emp.getExprList();
+        //判断工作经历列表是否为空
+        if(!CollectionUtils.isEmpty(exprList)) {
+            //遍历集合，设置empID为新增员工的ID
+            for(EmpExpr expr : exprList){
+                expr.setEmpId(emp.getId());
+            }
+            empExprMapper.insertBatch(exprList);
+        }
+    }
 }
+

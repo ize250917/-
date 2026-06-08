@@ -48,11 +48,30 @@ public class EmpController {
 
     /**
      * 批量删除员工
+     * RequestParam 查询参数
      */
     @DeleteMapping
     public Result delete(@RequestParam List<Integer> ids){
         log.info("批量删除员工: ids={} ", ids);
         empService.deleteByIds(ids);
+        return Result.success();
+    }
+
+    //查询回显
+    @GetMapping("/{id}")
+    public Result getInfo(@PathVariable Integer id){
+        Emp emp = empService.getById(id);
+        return Result.success(emp);
+    }
+
+    /*
+     * 修改员工信息
+     * RequestBody 请求体参数
+     */
+    @PutMapping
+    public Result update(@RequestBody Emp emp){
+        log.info("修改员工信息, {}", emp);
+        empService.update(emp);
         return Result.success();
     }
 }

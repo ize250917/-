@@ -2,7 +2,7 @@ package org.example.tliaswebmanagement.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 import org.example.tliaswebmanagement.pojo.Emp;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -37,9 +37,14 @@ public interface EmpMapper {
             "values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})")
     void insert(Emp emp);
 
-    void deletBy(List<Integer> ids);
-
+    //批量删除员工 sql语句已经配置在EmpMapper.xml中
     void deleteByIds(List<Integer> ids);
+
+    //根据ID查询员工信息 sql语句已经配置在EmpMapper.xml中
+    Emp getById(Integer id);
+
+    //根据ID更新员工信息 sql语句已经配置在EmpMapper.
+    void updateById(Emp emp);
 }
 
     
