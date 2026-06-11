@@ -1,13 +1,14 @@
 package org.example.tliaswebmanagement.mapper;
+import org.apache.ibatis.annotations.MapKey;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
 import org.example.tliaswebmanagement.pojo.Emp;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface EmpMapper {
@@ -45,6 +46,18 @@ public interface EmpMapper {
 
     //根据ID更新员工信息 sql语句已经配置在EmpMapper.
     void updateById(Emp emp);
+
+    /**
+     * 统计各个职位的员工人数
+     */
+    @MapKey("pos")
+    List<Map<String, Object>> countEmpJobData();
+
+    /**
+     * 统计各个性别的员工人数
+     */
+    @MapKey("name")
+    List<Map<String, Integer>> countEmpGenderData();
 }
 
     
