@@ -15,10 +15,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 员工管理
@@ -127,6 +125,14 @@ public class EmpServiceImpl implements EmpService {
             }
             empExprMapper.insertBatch(exprList);
         }
+    }
+
+    @Override
+    public List<Emp> getAllTeacher(Integer job) {
+        //1. 查询所有员工信息
+        List<Emp> allEmpList = empMapper.allTeacherList(job);
+        // 2. 解析查询结果，封装返回对象
+        return allEmpList;
     }
 }
 

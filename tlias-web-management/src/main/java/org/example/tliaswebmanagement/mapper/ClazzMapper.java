@@ -15,4 +15,8 @@ public interface ClazzMapper {
     void delete(Integer id);
 
     void insert(Clazz clazz);
+
+    Clazz get(Integer id);
+
+    void update(Clazz clazz);
 }

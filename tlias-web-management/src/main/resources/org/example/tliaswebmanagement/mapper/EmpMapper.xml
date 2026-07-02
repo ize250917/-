@@ -116,6 +116,11 @@
             count(*) value
         from emp group by gender
     </select>
+
+    <!-- 查询所有班主任信息 -->
+    <select id="allTeacherList" resultMap="empResultMap">
+        select * from emp where job=#{job}
+    </select>
 </mapper>
 
 

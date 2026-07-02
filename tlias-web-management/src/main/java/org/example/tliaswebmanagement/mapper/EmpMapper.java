@@ -1,10 +1,7 @@
 package org.example.tliaswebmanagement.mapper;
-import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.*;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
 import org.example.tliaswebmanagement.pojo.Emp;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -58,6 +55,12 @@ public interface EmpMapper {
      */
     @MapKey("name")
     List<Map<String, Integer>> countEmpGenderData();
+
+    /*
+    * 查询所有班主任信息
+    */
+    @MapKey("id")
+    List<Emp> allTeacherList(Integer job);
 }
 
     

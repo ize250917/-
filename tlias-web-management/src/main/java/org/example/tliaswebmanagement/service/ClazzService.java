@@ -11,4 +11,8 @@ public interface ClazzService {
     void delete(Integer id);
 
     void add(Clazz clazz);
+
+    Clazz get(Integer id);
+
+    void update(Clazz clazz);
 }

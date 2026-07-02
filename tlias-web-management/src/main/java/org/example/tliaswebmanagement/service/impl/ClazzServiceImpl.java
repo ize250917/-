@@ -45,6 +45,20 @@ public class ClazzServiceImpl implements ClazzService {
         //补全基础属性
         clazz.setCreateTime(LocalDateTime.now());
         clazz.setUpdateTime(LocalDateTime.now());
+        //插入班级信息
         clazzMapper.insert(clazz);
+    }
+
+    @Override
+    public Clazz get(Integer id) {
+        return clazzMapper.get(id);
+    }
+
+    @Override
+    public void update(Clazz clazz) {
+        //补全基础属性
+        clazz.setUpdateTime(LocalDateTime.now());
+        //更新班级信息
+        clazzMapper.update(clazz);
     }
 }

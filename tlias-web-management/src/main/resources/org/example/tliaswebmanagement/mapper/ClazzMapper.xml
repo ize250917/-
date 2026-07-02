@@ -19,6 +19,8 @@
             </if>
         </where>
     </sql>
+
+    <!-- 添加班级信息 -->
     <insert id="insert">
         INSERT INTO clazz (
             name,
@@ -40,6 +42,20 @@
             NOW()
                  )
     </insert>
+
+    <!-- 更新班级信息 -->
+    <update id="update">
+        update clazz
+        set
+            name = #{name},
+            room = #{room},
+            begin_date = #{beginDate},
+            end_date = #{endDate},
+            master_id = #{masterId},
+            subject = #{subject},
+            update_time = NOW()
+        where id = #{id}
+    </update>
     <delete id="delete">
         delete from clazz
         where id = #{id}
@@ -47,10 +63,26 @@
 
     <!-- 查询分页数据 -->
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Clazz">
-        select *
-        from clazz
+        select
+        c.*,
+        e.name as masterName,
+        case
+        when curdate() &lt; c.begin_date then '未开班'
+        when curdate() between c.begin_date and c.end_date then '在读'
+        else '已结课'
+        end as status
+        from clazz c
+        left join emp e on c.master_id = e.id
         <include refid="whereClause"/>
-        order by update_time desc
+        order by c.update_time desc
+    </select>
+    <select id="get" resultType="org.example.tliaswebmanagement.pojo.Clazz">
+        select
+            c.*,
+            e.name as masterName
+        from clazz c
+                 left join emp e on c.master_id = e.id
+        where c.id = #{id}
     </select>
 
 </mapper>
