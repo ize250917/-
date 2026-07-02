@@ -61,4 +61,9 @@ public class ClazzServiceImpl implements ClazzService {
         //更新班级信息
         clazzMapper.update(clazz);
     }
+
+    @Override
+    public Object getAll() {
+        return clazzMapper.list(null, null, null);
+    }
 }

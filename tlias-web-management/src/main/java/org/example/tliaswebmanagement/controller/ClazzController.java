@@ -30,7 +30,7 @@ public class ClazzController {
                        String name,
                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end){
-        log.info("查询员工信息, page={}, pageSize={},name={},begin={},end={}", page, pageSize, name, begin,end);
+        log.info("查询班级信息, page={}, pageSize={},name={},begin={},end={}", page, pageSize, name, begin,end);
         PageResult pageResult = clazzService.page(page, pageSize, name, begin,end);
         return Result.success(pageResult);
     }
@@ -85,4 +85,10 @@ public class ClazzController {
         return Result.success();
     }
 
+    //查询所有班级信息
+    @GetMapping("/list")
+    public Result listAll() {
+        log.info("查询所有班级信息");
+        return Result.success(clazzService.getAll());
+    }
 }

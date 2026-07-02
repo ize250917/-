@@ -67,7 +67,7 @@
         c.*,
         e.name as masterName,
         case
-        when curdate() &lt; c.begin_date then '未开班'
+        when curdate() &lt; c.begin_date then '未开班' <!-- &lt; 小于号 -->
         when curdate() between c.begin_date and c.end_date then '在读'
         else '已结课'
         end as status

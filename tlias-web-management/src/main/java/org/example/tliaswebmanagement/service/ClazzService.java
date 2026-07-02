@@ -15,4 +15,6 @@ public interface ClazzService {
     Clazz get(Integer id);
 
     void update(Clazz clazz);
+
+    Object getAll();
 }
