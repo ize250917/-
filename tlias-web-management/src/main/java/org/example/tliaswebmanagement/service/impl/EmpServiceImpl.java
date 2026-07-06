@@ -66,6 +66,7 @@ public class EmpServiceImpl implements EmpService {
         return new PageResult(p.getTotal(), p.getResult());
     }
 
+    //新增员工
     @Transactional(rollbackFor = Exception.class)  // 开启事务，所有异常均回滚
     @Override
     public void save(Emp emp) {

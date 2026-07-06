@@ -3,6 +3,59 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.StudentMapper">
+    <!-- 新增学生 -->
+    <insert id="insert">
+        insert into student
+        (name, no, gender, phone, id_card, is_college, address, degree, graduation_date, clazz_id, violation_count, violation_score, create_time, update_time)
+        values
+            (#{name}, #{no}, #{gender}, #{phone}, #{idCard}, #{isCollege}, #{address}, #{degree}, #{graduationDate}, #{clazzId}, 0,0, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 更新学生信息 -->
+    <update id="updateByPrimaryKey">
+        update student
+        set
+            name = #{name},
+            no = #{no},
+            gender = #{gender},
+            phone = #{phone},
+            id_card = #{idCard},
+            is_college = #{isCollege},
+            address = #{address},
+            degree = #{degree},
+            graduation_date = #{graduationDate},
+            clazz_id = #{clazzId},
+            update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <!-- 处理违规学生 -->
+    <update id="violation">
+        update student
+        set
+            violation_count = violation_count + 1,
+            violation_score = violation_score + #{score}
+        where id = #{id}
+    </update>
+
+    <!-- 批量删除学生 -->
+    <delete id="deleteBatch">
+        delete from student where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 查询班级学生人数 -->
+    <select id="getStudentCount" resultType="java.util.Map">
+        SELECT
+            c.name AS cname,
+            COUNT(s.id) AS scount
+        FROM clazz c
+                 LEFT JOIN student s ON s.clazz_id = c.id
+        GROUP BY c.id, c.name
+        ORDER BY c.id ASC
+    </select>
 
     <!-- 分页查询学生 -->
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Student">
@@ -36,5 +89,44 @@
                 AND s.clazz_id = #{clazzId}
             </if>
         </where>
+    </select>
+
+    <!-- 根据id查询学生信息 -->
+    <select id="selectByPrimaryKey" resultType="org.example.tliaswebmanagement.pojo.Student">
+        SELECT
+            id,
+            name,
+            no,
+            gender,
+            phone,
+            id_card,
+            is_college,
+            address,
+            degree,
+            graduation_date,
+            clazz_id,
+            violation_count,
+            violation_score,
+            create_time,
+            update_time
+        FROM student
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询学生学历分布 -->
+    <select id="countStudentDegreeData" resultType="java.util.Map">
+        SELECT
+            CASE degree
+                WHEN 1 THEN '初中'
+                WHEN 2 THEN '高中'
+                WHEN 3 THEN '大专'
+                WHEN 4 THEN '本科'
+                WHEN 5 THEN '硕士'
+                WHEN 6 THEN '博士'
+                ELSE '其他'
+                END AS `name`,
+            COUNT(*) AS `value`
+        FROM student
+        GROUP BY degree
     </select>
 </mapper>

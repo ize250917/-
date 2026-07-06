@@ -1,5 +1,7 @@
 package org.example.tliaswebmanagement.service;
 
+
+import org.example.tliaswebmanagement.pojo.ClazzCountOption;
 import org.example.tliaswebmanagement.pojo.JobOption;
 
 import java.util.List;
@@ -12,5 +14,17 @@ public interface ReportService {
      */
     JobOption getEmpJobData();
 
+    /**
+     * 统计各个性别员工人数
+     * @return
+     */
     List<Map<String, Integer>> getEmpGenderData();
+
+    /**
+     * 统计每个班级的学生人数
+     * @return
+     */
+    ClazzCountOption getStudentCountData();
+
+    List<Map<String, Integer>> getStudentDegreeData();
 }
