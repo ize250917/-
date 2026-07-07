@@ -10,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClazzCountOption {
-    private List classList; //班级名称
+    private List clazzList; //班级名称
     private List dataList; //班级人数
 }
