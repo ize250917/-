@@ -61,6 +61,9 @@ public interface EmpMapper {
     */
     @MapKey("id")
     List<Emp> allTeacherList(Integer job);
+
+    @Select("select id, username, name from emp where username = #{username} and password = #{password}")
+    Emp selectByUsernameandPassword(String username, String password);
 }
 
     

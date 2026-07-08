@@ -6,6 +6,7 @@ import org.example.tliaswebmanagement.mapper.EmpExprMapper;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.Emp;
 import org.example.tliaswebmanagement.pojo.EmpExpr;
+import org.example.tliaswebmanagement.pojo.LoginInfo;
 import org.example.tliaswebmanagement.pojo.PageResult;
 import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +135,18 @@ public class EmpServiceImpl implements EmpService {
         List<Emp> allEmpList = empMapper.allTeacherList(job);
         // 2. 解析查询结果，封装返回对象
         return allEmpList;
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        //1. 根据用户名查询员工信息
+        Emp u = empMapper.selectByUsernameandPassword(emp.getUsername(), emp.getPassword());
+        //2. 判断查询结果是否为空
+        if(u != null){
+            //3. 封装登录信息
+            return new LoginInfo(u.getId(), u.getUsername(), u.getName(), "");
+        }
+        return null;
     }
 }
 

@@ -2,6 +2,7 @@ package org.example.tliaswebmanagement.service;
 
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.Emp;
+import org.example.tliaswebmanagement.pojo.LoginInfo;
 import org.example.tliaswebmanagement.pojo.PageResult;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,4 +28,6 @@ public interface EmpService {
     void update(Emp emp);
 
     List<Emp> getAllTeacher(Integer job);
+
+    LoginInfo login(Emp emp);
 }
