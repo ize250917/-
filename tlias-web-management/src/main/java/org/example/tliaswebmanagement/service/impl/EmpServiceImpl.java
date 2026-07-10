@@ -9,6 +9,7 @@ import org.example.tliaswebmanagement.pojo.EmpExpr;
 import org.example.tliaswebmanagement.pojo.LoginInfo;
 import org.example.tliaswebmanagement.pojo.PageResult;
 import org.example.tliaswebmanagement.service.EmpService;
+import org.example.tliaswebmanagement.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,9 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 员工管理
@@ -139,12 +142,16 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public LoginInfo login(Emp emp) {
-        //1. 根据用户名查询员工信息
-        Emp u = empMapper.selectByUsernameandPassword(emp.getUsername(), emp.getPassword());
-        //2. 判断查询结果是否为空
-        if(u != null){
-            //3. 封装登录信息
-            return new LoginInfo(u.getId(), u.getUsername(), u.getName(), "");
+        Emp empLogin = empMapper.selectByUsernameandPassword(emp.getUsername(), emp.getPassword());
+        if(empLogin != null){
+            //1. 生成JWT令牌
+            Map<String,Object> dataMap = new HashMap<>();
+            dataMap.put("id", empLogin.getId());
+            dataMap.put("username", empLogin.getUsername());
+
+            String jwt = JwtUtils.generateJwt(dataMap);
+            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), jwt);
+            return loginInfo;
         }
         return null;
     }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginInfo {
+    //登录信息类
     private Integer id;
     private String username;
     private String password;
